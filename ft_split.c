@@ -1,30 +1,18 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: aerrahim <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/17 18:23:59 by aerrahim          #+#    #+#             */
-/*   Updated: 2022/12/17 18:24:03 by aerrahim         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "libft.h"
 
-static int	ft_totalwords(char const *s, char c)
+static int	ft_totalwords(char const *str, char c)
 {
 	int	i;
 	int	words;
 
 	i = 0;
 	words = 0;
-	while (s && s[i])
+	while (str && str[i])
 	{
-		if (s[i] != c)
+		if (str[i] != c)
 		{
 			words++;
-			while (s[i] != c && s[i])
+			while (str[i] != c && str[i])
 				i++;
 		}
 		else
@@ -33,12 +21,12 @@ static int	ft_totalwords(char const *s, char c)
 	return (words);
 }
 
-static int	ft_wordsize(char const *s, char c, int i)
+static int	ft_wordsize(char const *str, char c, int i)
 {
 	int	size;
 
 	size = 0;
-	while (s[i] != c && s[i])
+	while (str[i] != c && str[i])
 	{
 		size++;
 		i++;
@@ -46,38 +34,38 @@ static int	ft_wordsize(char const *s, char c, int i)
 	return (size);
 }
 
-static void	ft_free(char **strs, int i)
+static void	ft_free(char **str, int i)
 {
 	while (i-- > 0)
-		free (strs[i]);
-	free (strs);
+		free (str[i]);
+	free (str);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split(char const *str, char c)
 {
 	int		i;
 	int		words;
-	char	**strs;
+	char	**s;
 	int		size;
 	int		j;
 
 	i = 0;
 	j = -1;
-	if (!s)
+	if (!str)
 		return (NULL);
-	words = ft_totalwords(s, c);
-	strs = (char **)malloc((words + 1) * sizeof(char *));
-	if (!strs)
+	words = ft_totalwords(str, c);
+	s = (char **)malloc((words + 1) * sizeof(char *));
+	if (!s)
 		return (NULL);
 	while (++j < words)
 	{
-		while (s[i] == c)
+		while (str[i] == c)
 			i++;
-		size = ft_wordsize(s, c, i);
-		strs[j] = ft_substr((char *)s, i, size);
-		if (strs == NULL)
-			return (ft_free(strs, j), NULL);
+		size = ft_wordsize(str, c, i);
+		s[j] = ft_substr((char *)str, i, size);
+		if (s == NULL)
+			return (ft_free(s, j), NULL);
 		i += size;
 	}
-	return (strs[j] = 0, strs);
+	return (s[j] = 0, s);
 }

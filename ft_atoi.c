@@ -1,34 +1,38 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: aerrahim <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/17 18:21:50 by aerrahim          #+#    #+#             */
-/*   Updated: 2022/12/17 18:22:00 by aerrahim         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "libft.h"
+
+static int skip_space(const char *str)
+{
+    int i;
+
+    i = 0;
+    while (is_space(str[i]))
+        i++;
+    return (i);
+}
 
 int	ft_atoi(const char *str)
 {
-	int		sum;
-	int		sign;
+	long		sum;
+	long		sign;
+	long		i;
 
 	sum = 0;
 	sign = 1;
-	while (*str == 32 || (*str >= 9 && *str <= 13))
-		str++;
-	if (*str == '-')
-		sign *= -1;
-	if (*str == '-' || *str == '+')
-		str++;
-	while (*str >= '0' && *str <= '9')
+	i = skip_space(str);
+	if (str[i] == '+' || str[i] == '-')
 	{
-		sum = sum * 10 + *str - '0';
-		str++;
+		if (str[i] == '-')
+			sign = -1;
+		i++;
 	}
+	while (is_digit(str[i]))
+	{
+		sum = sum * 10 + str[i] - 48;
+		i++;
+	}
+    if (str[i])
+		ft_panic("Error: Invalid input");
+	if ((sum * sign) > 2147483647 || ((sum * sign) < -2147483648))
+		ft_panic("Error: exceeded MAX or MIN int");
 	return (sum * sign);
 }
