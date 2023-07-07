@@ -22,13 +22,13 @@ ${NAME} : ${OBJS}
 	ar -rc $@ ${OBJS}
 
 all : ${NAME}
-
+	@echo "\033[1;32mlibft.a created\033[0m"
 clean :
 	${RM} ${OBJS}
-
+	@echo "\033[1;32mlibft objects deleted\033[0m"
 fclean : clean
 	${RM} ${NAME}
-
+	@echo "\033[1;32mlibft.a deleted\033[0m"
 re : fclean all
-
+	@echo "\033[1;32mlibft.a re-created\033[0m"
 .SILENT: all clean fclean ${OBJS} ${NAME}
